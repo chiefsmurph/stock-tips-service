@@ -5,6 +5,9 @@
   "repository": "git@github.com-personal:chiefsmurph/stock-tips-service.git",
   "author": "chiefsmurph <chiefsmurph@gmail.com>",
   "license": "MIT",
+  "scripts": {
+    "start": "pm2 start index.js --name stock-tips-service"
+  },
   "dependencies": {
     "socket.io": "^2.3.0",
     "socket.io-client": "^2.3.0",

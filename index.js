@@ -19,7 +19,7 @@ const emitAppState = (socket = io) =>
 
 
 rhSocket.on('server:data-update', data => {
-  console.log('data update has been received from rhSocket');
+  // console.log('data update has been received from rhSocket');
 
   const nextAppState = {
     ...curAppState,
@@ -27,7 +27,7 @@ rhSocket.on('server:data-update', data => {
   };
 
   if (JSON.stringify(curAppState) !== JSON.stringify(nextAppState)) {
-    console.log('app state has been updated');
+    console.log('app state has been updated from rhSocket');
     curAppState = nextAppState;
     emitAppState(); // to all
   }
