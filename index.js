@@ -10,10 +10,12 @@ let curAppState = {};
 
 io.on('connection', client => {
   console.log('new client connected incoming...');
+  emitAppState(client);
 });
 io.listen(3001);
 
-const emitAppState = () => io && io.emit('server:data-update', curAppState);
+const emitAppState = (socket = io) => 
+  socket && socket.emit('server:data-update', curAppState);
 
 
 rhSocket.on('server:data-update', data => {
@@ -28,6 +30,6 @@ rhSocket.on('server:data-update', data => {
   if (JSON.stringify(curAppState) !== JSON.stringify(nextAppState)) {
     console.log('app state has been updated');
     curAppState = nextAppState;
-    emitAppState();
+    emitAppState(); // to all
   }
 });
