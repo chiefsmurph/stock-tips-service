@@ -6,6 +6,8 @@
   "author": "chiefsmurph <chiefsmurph@gmail.com>",
   "license": "MIT",
   "dependencies": {
-    "socket.io-client": "^2.3.0"
+    "socket.io": "^2.3.0",
+    "socket.io-client": "^2.3.0",
+    "underscore": "^1.9.1"
   }
 }
