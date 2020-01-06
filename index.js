@@ -19,8 +19,7 @@ const emitAppState = (socket = io) =>
 
 
 rhSocket.on('server:data-update', data => {
-  console.log('data update')
-  console.log(data);
+  console.log('data update has been received from rhSocket');
 
   const nextAppState = {
     ...curAppState,
