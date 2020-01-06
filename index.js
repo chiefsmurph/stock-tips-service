@@ -23,7 +23,7 @@ rhSocket.on('server:data-update', data => {
 
   const nextAppState = {
     ...curAppState,
-    ...pick(data, ['derivedPicks', 'lastCollectionRefresh'])
+    ...pick(data, ['derivedCollections', 'lastCollectionRefresh'])
   };
 
   if (JSON.stringify(curAppState) !== JSON.stringify(nextAppState)) {
