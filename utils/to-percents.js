@@ -17,7 +17,7 @@ module.exports = (balanceReports = []) => {
 
 
 
-  const onlyToday = copy.filter(r => r.date === mostRecent && r.isRegularHours);
+  const onlyToday = copy.filter(r => r.date === mostRecent);
 
   const percs = onlyToday.map(r => ({
     sp500: getTrend(r.indexPrices.sp500, prevClose.indexPrices.sp500),
