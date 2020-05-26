@@ -1,7 +1,7 @@
 const { uniq } = require('underscore');
 const getTrend = require('./get-trend');
 
-module.exports = (balanceReports = []) => {
+module.exports = (balanceReports = [], numDays = 3) => {
 
   if (!balanceReports || !balanceReports.length) return [];
 
@@ -11,13 +11,11 @@ module.exports = (balanceReports = []) => {
     date: (new Date(report.time)).toLocaleDateString()
   }));
 
-  const mostRecent = copy.filter(r => r.isRegularHours).pop().date;
+  const mostRecent = copy.pop().date;
 
   const prevClose = copy.slice().reverse().find(r => r.date !== mostRecent && r.isRegularHours);
 
-
-
-  const onlyToday = copy.filter(r => r.date === mostRecent);
+  const onlyToday = copy.filter(r =>  (new Date(r.time)) > Date.now() - 1000 * 60 * 60 * 24 * numDays );
 
   const percs = onlyToday.map(r => ({
     sp500: getTrend(r.indexPrices.sp500, prevClose.indexPrices.sp500),
