@@ -1,7 +1,7 @@
 const { uniq } = require('underscore');
 const getTrend = require('./get-trend');
 
-module.exports = (balanceReports = [], numDays = 3) => {
+module.exports = (balanceReports = [], numDays = 1) => {
 
   if (!balanceReports || !balanceReports.length) return [];
 
