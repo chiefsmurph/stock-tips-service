@@ -17,13 +17,15 @@ module.exports = (balanceReports = [], numDays = 1) => {
 
   const onlyToday = copy.filter(r => r.date === mostRecent);
 
-  const percs = onlyToday.map(r => ({
-    sp500: getTrend(r.indexPrices.sp500, prevClose.indexPrices.sp500),
-    nasdaq: getTrend(r.indexPrices.nasdaq, prevClose.indexPrices.nasdaq),
-    russell2000: getTrend(r.indexPrices.russell2000, prevClose.indexPrices.russell2000),
-    alpacaBalance: getTrend(r.alpacaBalance, prevClose.alpacaBalance),
-    time: r.time
-  }));
+  const percs = onlyToday
+    .filter(r => r.indexPrices)
+    .map(r => ({
+      sp500: getTrend(r.indexPrices.sp500, prevClose.indexPrices.sp500),
+      nasdaq: getTrend(r.indexPrices.nasdaq, prevClose.indexPrices.nasdaq),
+      russell2000: getTrend(r.indexPrices.russell2000, prevClose.indexPrices.russell2000),
+      alpacaBalance: getTrend(r.alpacaBalance, prevClose.alpacaBalance),
+      time: r.time
+    }));
 
   return percs;
 };
