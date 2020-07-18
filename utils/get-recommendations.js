@@ -1,8 +1,27 @@
+const { get, mapObject, sortBy } = require('underscore');
+
 const getRecommendations = (positions = []) => {
-  return positions
-    .filter(p => p.zScoreFinal && p.scan)
-    .sort((a, b) => b.zScoreFinal - a.zScoreFinal)
-    .slice(0, 3)
-    .map(p => p.ticker);
+
+  const recs = {
+    zScoreFinal: p => -p.zScoreFinal,
+    zScoreSum: p => -p.zScoreSum,
+    sentiment: p => -p.stSent.bullBearScore,
+    oversold: p => p.scan.dailyRSI,
+    unusualVolume: p => -p.scan.zScores.projectedVolumeTo2WeekAvg,
+  };
+
+  const withScans = positions.filter(p => p.scan);
+  let remaining = [
+    ...withScans
+  ];
+  return mapObject(recs, sortVal => {
+    const [remainingPick, overallPick] = [remaining, withScans]
+      .map(positions => (sortBy(arr, sortVal).shift() || {}).ticker);
+    // remove remainingPick from remaining
+    remaining = remaining.filter(p => p.ticker !== remainingPick);
+    return remainingPick === overallPick 
+      ? remainingPick 
+      : [remainingPick, overallPick];
+  });
 };
 module.exports = getRecommendations;
