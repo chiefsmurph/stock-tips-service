@@ -5,6 +5,7 @@ const { rhEndpoint, options } = require('./config');
 
 const rhSocket = socketIOClient(rhEndpoint, options);
 const toPercents = require('./utils/to-percents');
+const getRecommendations = require('./utils/get-recommendations');
 
 let curAppState = {};
 
@@ -15,16 +16,16 @@ io.on('connection', client => {
 io.listen(3001);
 
 const emitChartData = (socket = io) => 
-  socket && socket.emit('server:stock-data', toPercents(curAppState.balanceReports));
+  socket && socket.emit('server:stock-data', {
+    recommendations: getRecommendations(curAppState.positions.alpaca),
+    chartData: toPercents(curAppState.balanceReports)
+  });
 
 
 rhSocket.on('server:data-update', data => {
 
-  const nextAppState = {
-    ...curAppState,
-    ...pick(data, ['balanceReports'])
-  };
-
+  const nextAppState = pick(data, ['balanceReports', 'positions']);
+  
   if (JSON.stringify(curAppState) !== JSON.stringify(nextAppState)) {
     console.log('app state has been updated from rhSocket');
     curAppState = nextAppState;
