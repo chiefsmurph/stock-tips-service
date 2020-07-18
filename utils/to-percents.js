@@ -17,7 +17,11 @@ module.exports = (balanceReports = [], numDays = 1) => {
   const prevClose = copy.slice().reverse().find(r => r.date !== mostRecent && r.isRegularHours);
 
   const onlyToday = copy.filter(r => r.date === mostRecent);
-
+  console.log({
+    cLen: copy.length,
+    prevClose,
+    otLen: onlyToday.length
+  })
   const percs = onlyToday
     .filter(r => r.indexPrices)
     .map(r => ({
