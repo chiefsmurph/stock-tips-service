@@ -17,7 +17,7 @@ io.listen(3001);
 
 const emitChartData = (socket = io) => 
   socket && socket.emit('server:stock-data', {
-    recommendations: getRecommendations(curAppState.positions.alpaca),
+    recommendations: getRecommendations((curAppState.positions || {}).alpaca),
     chartData: toPercents(curAppState.balanceReports)
   });
 
