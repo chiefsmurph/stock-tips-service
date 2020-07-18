@@ -5,3 +5,4 @@ const getRecommendations = (positions = []) => {
     .slice(0, 3)
     .map(p => p.ticker);
 };
+module.exports = getRecommendations;

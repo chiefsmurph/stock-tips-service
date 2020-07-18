@@ -23,9 +23,7 @@ const emitChartData = (socket = io) =>
 
 
 rhSocket.on('server:data-update', data => {
-
   const nextAppState = pick(data, ['balanceReports', 'positions']);
-  
   if (JSON.stringify(curAppState) !== JSON.stringify(nextAppState)) {
     console.log('app state has been updated from rhSocket');
     curAppState = nextAppState;
