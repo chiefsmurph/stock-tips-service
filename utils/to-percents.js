@@ -12,6 +12,7 @@ module.exports = (balanceReports = [], numDays = 1) => {
   }));
 
   const mostRecent = copy.pop().date;
+  console.log({ mostRecent})
 
   const prevClose = copy.slice().reverse().find(r => r.date !== mostRecent && r.isRegularHours);
 
