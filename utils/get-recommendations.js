@@ -16,7 +16,7 @@ const getRecommendations = (positions = []) => {
   ];
   return mapObject(recs, sortVal => {
     const [remainingPick, overallPick] = [remaining, withScans]
-      .map(positions => (sortBy(arr, sortVal).shift() || {}).ticker);
+      .map(arr => (sortBy(arr, sortVal).shift() || {}).ticker);
     // remove remainingPick from remaining
     remaining = remaining.filter(p => p.ticker !== remainingPick);
     return remainingPick === overallPick 
