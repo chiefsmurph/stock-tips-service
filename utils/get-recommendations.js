@@ -19,6 +19,7 @@ const getRecommendations = (positions = []) => {
       .map(arr => (sortBy(arr, sortVal).shift() || {}).ticker);
     // remove remainingPick from remaining
     remaining = remaining.filter(p => p.ticker !== remainingPick);
+    console.log({ remainingPick, overallPick })
     return remainingPick === overallPick 
       ? remainingPick 
       : [remainingPick, overallPick];

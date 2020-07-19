@@ -23,7 +23,10 @@ const emitChartData = (socket = io) =>
 
 
 rhSocket.on('server:data-update', data => {
-  const nextAppState = pick(data, ['balanceReports', 'positions']);
+  const nextAppState = {
+    ...curAppState,
+    ...pick(data, ['balanceReports', 'positions'])
+  };
   nextAppState.positions = nextAppState.positions.alpaca.map(p => pick(p, ['ticker', 'zScoreFinal', 'zScoreSum', 'scan', 'stSent']));
   
   if (JSON.stringify(curAppState) !== JSON.stringify(nextAppState)) {
