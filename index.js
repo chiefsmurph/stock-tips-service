@@ -23,7 +23,8 @@ io.on('connection', client => {
     }
   });
   client.on('client:get-cheapest', cb => {
-    isAuth && rhSocket.emit('client:act', 'getCheapest', cb);
+    // isAuth && rhSocket.emit('client:act', 'getCheapest', cb);
+    rhSocket.emit('client:act', 'getCheapest', cheapest => client.emit('server:stock-data', { cheapest} ));
   });
   client.on('disconnect', () => {
     console.log('connection disconnect');
