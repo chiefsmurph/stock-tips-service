@@ -18,7 +18,7 @@ io.on('connection', client => {
     rhSocket.emit(
       'client:act', 
       'getCheapest', 
-      cheapest => client.emit('server:stock-data', { cheapest } )
+      cheapest => client.emit('server:cheapest', cheapest)
     );
   client.on('client:auth', authString => {
     if (authString === 'peace leave') {
