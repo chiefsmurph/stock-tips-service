@@ -9,16 +9,37 @@ const getRecommendations = require('./utils/get-recommendations');
 
 let curAppState = {};
 
+const authConnections = {};
+
 io.on('connection', client => {
+  let isAuth = false;
   console.log('new client connected incoming...');
   emitChartData(client);
+  client.on('client:auth', authString => {
+    if (authString === 'peace leave') {
+      isAuth = true;
+      authConnections[client.id] = client;
+      console.log('yes this one is authed');
+    }
+  });
   client.on('client:get-cheapest', cb => {
-    rhSocket.emit('client:act', 'getCheapest', cb);
+    isAuth && rhSocket.emit('client:act', 'getCheapest', cb);
+  });
+  client.on('disconnect', () => {
+    console.log('connection disconnect');
+    delete authConnections[client.id];
   });
 });
 io.listen(3001);
 
-const emitChartData = (socket = io) => 
+const allAuthed = {
+  emit: (...args) => {
+    Object.values(authConnections)
+      .forEach(socket => socket.emit(...args));
+  }
+};
+
+const emitChartData = (socket = allAuthed) => 
   socket && socket.emit('server:stock-data', {
     recommendations: getRecommendations(curAppState.positions),
     chartData: toPercents(curAppState.balanceReports)
