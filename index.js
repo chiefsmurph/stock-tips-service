@@ -14,12 +14,12 @@ const authConnections = {};
 io.on('connection', client => {
   let isAuth = false;
   console.log('new client connected incoming...');
-  emitChartData(client);
   client.on('client:auth', authString => {
     if (authString === 'peace leave') {
+      console.log('yes this one is authed');
       isAuth = true;
       authConnections[client.id] = client;
-      console.log('yes this one is authed');
+      emitChartData(client);
     }
   });
   client.on('client:get-cheapest', cb => {
