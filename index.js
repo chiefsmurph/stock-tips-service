@@ -14,17 +14,20 @@ const authConnections = {};
 io.on('connection', client => {
   let isAuth = false;
   console.log('new client connected incoming...');
+  const sendCheapest = () => 
+    rhSocket.emit(
+      'client:act', 
+      'getCheapest', 
+      cheapest => client.emit('server:stock-data', { cheapest } )
+    );
   client.on('client:auth', authString => {
     if (authString === 'peace leave') {
       console.log('yes this one is authed');
       isAuth = true;
       authConnections[client.id] = client;
       emitChartData(client);
+      sendCheapest();
     }
-  });
-  client.on('client:get-cheapest', cb => {
-    // isAuth && rhSocket.emit('client:act', 'getCheapest', cb);
-    rhSocket.emit('client:act', 'getCheapest', cheapest => client.emit('server:stock-data', { cheapest} ));
   });
   client.on('disconnect', () => {
     console.log('connection disconnect');
