@@ -13,7 +13,7 @@ io.on('connection', client => {
   console.log('new client connected incoming...');
   emitChartData(client);
   client.on('client:get-cheapest', cb => {
-    rhSocket.emit('client:act', { method: 'get-cheapest' }, cb);
+    rhSocket.emit('client:act', { method: 'getCheapest' }, cb);
   });
 });
 io.listen(3001);
