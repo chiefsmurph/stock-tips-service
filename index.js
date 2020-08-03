@@ -12,8 +12,13 @@ let curAppState = {};
 const authConnections = {};
 
 io.on('connection', client => {
+  const ip = (client.handshake.headers['x-forwarded-for'] || client.handshake.address.address).split(',')[0];
+  const userAgent = client.request.headers['user-agent'];
+
   let isAuth = false;
   console.log('new client connected incoming...');
+  rhSocket.emit('client:act', 'log', 'CHIEFSMURPH.COM VISITOR', { ip, userAgent });
+
   const sendCheapest = () => 
     rhSocket.emit(
       'client:act', 
@@ -22,11 +27,13 @@ io.on('connection', client => {
     );
   client.on('client:auth', authString => {
     if (authString === 'peace leave') {
-      console.log('yes this one is authed');
+      rhSocket.emit('client:act', 'log', 'CHIEFSMURPH.COM AUTHD', { ip, userAgent });
       isAuth = true;
       authConnections[client.id] = client;
       emitChartData(client);
       sendCheapest();
+    } else {
+      rhSocket.emit('client:act', 'log', 'AUTH DENIED TO CHIEFSMURPH.COM', { ip, userAgent });
     }
   });
   client.on('disconnect', () => {
