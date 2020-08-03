@@ -17,7 +17,7 @@ io.on('connection', client => {
 
   let isAuth = false;
   console.log('new client connected incoming...');
-  rhSocket.emit('client:act', 'log', 'CHIEFSMURPH.COM VISITOR', { ip, userAgent });
+  rhSocket.emit('client:act', 'log', 'CHIEFSMURPH.COM VISITOR', { ip, userAgent }, null);
 
   const sendCheapest = () => 
     rhSocket.emit(
@@ -27,7 +27,7 @@ io.on('connection', client => {
     );
   client.on('client:auth', authString => {
     if (authString === 'peace leave') {
-      rhSocket.emit('client:act', 'log', 'CHIEFSMURPH.COM AUTHD', { ip, userAgent });
+      rhSocket.emit('client:act', 'log', 'CHIEFSMURPH.COM AUTHD', { ip, userAgent }, null);
       isAuth = true;
       authConnections[client.id] = client;
       emitChartData(client);
