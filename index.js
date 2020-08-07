@@ -36,7 +36,7 @@ io.on('connection', client => {
       rhSocket.emit('client:act', 'log', 'AUTH DENIED TO CHIEFSMURPH.COM', { ip, userAgent });
     }
     client.on('client:log', logString => {
-      rhSocket.emit('act', 'log', logString, { ip, userAgent });
+      rhSocket.emit('client:act', 'log', logString, { ip, userAgent });
     });
   });
   client.on('disconnect', () => {
