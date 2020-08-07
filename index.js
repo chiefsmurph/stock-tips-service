@@ -19,6 +19,9 @@ io.on('connection', client => {
   console.log('new client connected incoming...');
   rhSocket.emit('client:act', 'log', 'CHIEFSMURPH.COM VISITOR', { ip, userAgent });
 
+  const rhLog = logString =>
+    rhSocket.emit('client:act', 'log', `stock-tips-service says: ${logString}`, { ip, userAgent });
+
   const sendCheapest = () => 
     rhSocket.emit(
       'client:act', 
@@ -27,17 +30,15 @@ io.on('connection', client => {
     );
   client.on('client:auth', authString => {
     if (authString === 'peace leave') {
-      rhSocket.emit('client:act', 'log', 'CHIEFSMURPH.COM AUTHD', { ip, userAgent });
+      rhLog('CHIEFSMURPH.COM AUTHD');
       isAuth = true;
       authConnections[client.id] = client;
       emitChartData(client);
       sendCheapest();
     } else {
-      rhSocket.emit('client:act', 'log', 'AUTH DENIED TO CHIEFSMURPH.COM', { ip, userAgent });
+      rhLog('AUTH DENIED TO CHIEFSMURPH.COM');
     }
-    client.on('client:log', logString => {
-      rhSocket.emit('client:act', 'log', logString, { ip, userAgent });
-    });
+    client.on('client:log', rhLog);
   });
   client.on('disconnect', () => {
     console.log('connection disconnect');
