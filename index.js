@@ -26,7 +26,10 @@ io.on('connection', client => {
     rhSocket.emit(
       'client:act', 
       'getCheapest', 
-      cheapest => client.emit('server:cheapest', cheapest)
+      cheapest => client.emit('server:cheapest', {
+        label: 'Click here for the cheapest non-OTC stocks',
+        data: cheapest
+      })
     );
   client.on('client:auth', authString => {
     if (authString === 'peace leave') {
@@ -56,6 +59,8 @@ const allAuthed = {
 
 const emitChartData = (socket = allAuthed) => 
   socket && socket.emit('server:stock-data', {
+    section: 'Stock Market',
+    label: 'Click here for my list of penny stocks to watch',
     recommendations: getRecommendations(curAppState.positions),
     chartData: toPercents(curAppState.balanceReports)
   });
