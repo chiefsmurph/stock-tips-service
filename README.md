@@ -1,1 +1,1 @@
-# stock-tips-service
+# karate-tips-service

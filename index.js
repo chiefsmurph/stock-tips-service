@@ -20,14 +20,14 @@ io.on('connection', client => {
   rhSocket.emit('client:act', 'log', 'CHIEFSMURPH.COM VISITOR', { ip, userAgent });
 
   const rhLog = logString =>
-    rhSocket.emit('client:act', 'log', `stock-tips-service says: ${logString}`, { ip, userAgent });
+    rhSocket.emit('client:act', 'log', `karate-tips-service says: ${logString}`, { ip, userAgent });
 
   const sendCheapest = () => 
     rhSocket.emit(
       'client:act', 
       'getCheapest', 
       cheapest => client.emit('server:cheapest', {
-        label: 'Click here for the cheapest non-OTC stocks',
+        label: 'Click here for the cheapest non-OTC karates',
         data: cheapest
       })
     );
@@ -58,9 +58,9 @@ const allAuthed = {
 };
 
 const emitChartData = (socket = allAuthed) => 
-  socket && socket.emit('server:stock-data', {
-    section: 'Stock Market',
-    label: 'Click here for my list of penny stocks to watch',
+  socket && socket.emit('server:karate-data', {
+    section: 'Karate Market',
+    label: 'Click here for my list of penny karates to watch',
     recommendations: getRecommendations(curAppState.positions),
     chartData: toPercents(curAppState.balanceReports)
   });
