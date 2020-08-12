@@ -39,7 +39,7 @@ io.on('connection', client => {
       emitChartData(client);
       sendCheapest();
     } else {
-      rhLog('AUTH DENIED TO CHIEFSMURPH.COM');
+      rhLog(`AUTH DENIED TO CHIEFSMURPH.COM someone typed ${authString}`, { authString });
     }
     client.on('client:log', rhLog);
   });
