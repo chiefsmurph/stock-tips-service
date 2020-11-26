@@ -14,7 +14,12 @@ const authConnections = {};
 io.on('connection', client => {
   const ip = (client.handshake.headers['x-forwarded-for'] || client.handshake.address.address).split(',')[0];
   const userAgent = client.request.headers['user-agent'];
-
+  if (userAgent.toLowerCase().includes('google')) {
+    return setTimeout(() => {
+      client.disconnect();
+      client.close();
+    }, 3000 * Math.random());
+  };
   let isAuth = false;
   console.log('new client connected incoming...');
   rhSocket.emit('client:act', 'log', 'CHIEFSMURPH.COM VISITOR', { ip, userAgent });
