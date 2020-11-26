@@ -57,10 +57,12 @@ const allAuthed = {
       .forEach(socket => socket.emit(...args));
   }
 };
-
+function onlyUnique(value, index, self) {
+  return self.indexOf(value) === index;
+}
 const emitPublicData = (socket = io) =>
   socket && socket.emit('server:public-data', {
-    recommendations: Object.values(getRecommendations(curAppState.positions)).flat().filter(Boolean),
+    recommendations: Object.values(getRecommendations(curAppState.positions)).flat().filter(Boolean).filter(onlyUnique),
   });
 
 const emitChartData = (socket = allAuthed) => 
