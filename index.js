@@ -18,6 +18,7 @@ io.on('connection', client => {
   let isAuth = false;
   console.log('new client connected incoming...');
   rhSocket.emit('client:act', 'log', 'CHIEFSMURPH.COM VISITOR', { ip, userAgent });
+  emitPublicData(client);
 
   const rhLog = logString =>
     rhSocket.emit('client:act', 'log', `karate-tips-service says: ${logString}`, { ip, userAgent });
@@ -57,6 +58,11 @@ const allAuthed = {
   }
 };
 
+const emitPublicData = (socket = io) =>
+  socket && socket.emit('server:public-data', {
+    recommendations: getRecommendations(curAppState.positions)
+  });
+
 const emitChartData = (socket = allAuthed) => 
   socket && socket.emit('server:karate-data', {
     section: 'Karate Market',
@@ -78,6 +84,7 @@ rhSocket.on('server:data-update', data => {
     curAppState = nextAppState;
     console.log(getRecommendations(curAppState.positions));
     emitChartData(); // to all
+    emitPublicData() // to all;
   }
 });
 
