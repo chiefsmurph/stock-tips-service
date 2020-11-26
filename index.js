@@ -60,7 +60,7 @@ const allAuthed = {
 
 const emitPublicData = (socket = io) =>
   socket && socket.emit('server:public-data', {
-    recommendations: Object.values(getRecommendations(curAppState.positions)).flat().filter(Boolean),
+    recommendations: Object.values(getRecommendations(curAppState.positions)).flat(),
   });
 
 const emitChartData = (socket = allAuthed) => 
