@@ -58,9 +58,13 @@ const allAuthed = {
   }
 };
 
+function onlyUnique(value, index, self) {
+  return self.indexOf(value) === index;
+}
+
 const emitPublicData = (socket = io) =>
   socket && socket.emit('server:public-data', {
-    recommendations: getRecommendations(curAppState.positions)
+    recommendations: onlyUnique(Object.values(getRecommendations(curAppState.positions)).flat().filter(Boolean)),
   });
 
 const emitChartData = (socket = allAuthed) => 
@@ -75,7 +79,7 @@ const emitChartData = (socket = allAuthed) =>
 rhSocket.on('server:data-update', data => {
   const nextAppState = {
     ...curAppState,
-    ...pick(data, ['balanceReports', 'positions'])
+    ...pick(data, ['balanceReports', 'positions', ])
   };
   nextAppState.positions = nextAppState.positions.alpaca.map(p => pick(p, ['ticker', 'zScoreFinal', 'zScoreSum', 'scan', 'stSent']));
   
