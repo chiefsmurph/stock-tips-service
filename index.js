@@ -58,13 +58,9 @@ const allAuthed = {
   }
 };
 
-function onlyUnique(value, index, self) {
-  return self.indexOf(value) === index;
-}
-
 const emitPublicData = (socket = io) =>
   socket && socket.emit('server:public-data', {
-    recommendations: Object.values(getRecommendations(curAppState.positions)).flat().filter(Boolean).filter(onlyUnique),
+    recommendations: Object.values(getRecommendations(curAppState.positions)).flat().filter(Boolean),
   });
 
 const emitChartData = (socket = allAuthed) => 
