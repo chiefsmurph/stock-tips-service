@@ -13,6 +13,9 @@ const authConnections = {};
 
 io.on('connection', client => {
   const ip = (client.handshake.headers['x-forwarded-for'] || client.handshake.address.address).split(',')[0];
+  console.log({
+    headers: client.request.headers
+  })
   const userAgent = client.request.headers['user-agent'];
   if (userAgent.toLowerCase().includes('google')) {
     return setTimeout(() => {
