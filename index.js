@@ -17,6 +17,7 @@ io.on('connection', client => {
     headers: client.request.headers
   })
   const userAgent = client.request.headers['user-agent'];
+  const host = client.request.headers['host'];
   if (userAgent.toLowerCase().includes('google')) {
     return setTimeout(() => {
       client.disconnect();
@@ -25,7 +26,7 @@ io.on('connection', client => {
   };
   let isAuth = false;
   console.log('new client connected incoming...');
-  rhSocket.emit('client:act', 'log', 'CHIEFSMURPH.COM VISITOR', { ip, userAgent });
+  rhSocket.emit('client:act', 'log', `${host.toUpperCase()} VISITOR`, { ip, userAgent });
   emitPublicData(client);
 
   const rhLog = logString =>
